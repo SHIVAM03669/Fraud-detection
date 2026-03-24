@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: fraud-detection-api
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn api.app:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHONPATH
+        value: /opt/render/project/src
+    
+  - type: web
+    name: fraud-detection-dashboard
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run dashboard/app.py --server.port $PORT --server.address 0.0.0.0
+    envVars:
+      - key: PYTHONPATH
+        value: /opt/render/project/src
+      - key: API_URL
+        fromService:
+          type: web
+          name: fraud-detection-api
+          property: host
