@@ -2,23 +2,28 @@ services:
   - type: web
     name: fraud-detection-api
     env: python
-    buildCommand: pip install -r requirements.txt
+    region: oregon
+    plan: free
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
     startCommand: uvicorn api.app:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
     envVars:
       - key: PYTHONPATH
         value: /opt/render/project/src
+      - key: PYTHON_VERSION
+        value: 3.11.7
     
   - type: web
     name: fraud-detection-dashboard
     env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: streamlit run dashboard/app.py --server.port $PORT --server.address 0.0.0.0
+    region: oregon
+    plan: free
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: streamlit run dashboard/app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true --server.enableCORS false
     envVars:
       - key: PYTHONPATH
         value: /opt/render/project/src
+      - key: PYTHON_VERSION
+        value: 3.11.7
       - key: API_URL
-        fromService:
-          type: web
-          name: fraud-detection-api
-          property: host
+        value: https://fraud-detection-api.onrender.com

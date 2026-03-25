@@ -8,7 +8,7 @@ st.set_page_config(page_title="Fraud Detection", layout="centered")
 st.title("💳 Fraud Detection System")
 st.write("Click below to generate or test a transaction")
 
-API_URL = "http://127.0.0.1:8000/predict"
+API_URL = "http://127.0.0.1:8001/predict"
 
 # -------------------------------
 # SESSION STATE

@@ -1,0 +1,11 @@
+# Minimal requirements for deployment compatibility
+fastapi
+uvicorn[standard]
+streamlit
+pandas
+numpy
+scikit-learn
+joblib
+pydantic
+python-multipart
+requests
